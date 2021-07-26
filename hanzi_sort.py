@@ -8,15 +8,15 @@ bihua_index = {}
 
 for line in lines:
     key, pinyin, bihua = line.split()
-    bihua_index[key] = bihua
-    pinyin_index[key] = pinyin
+    bihua_index[key] = bihua.encode('ascii')
+    pinyin_index[key] = pinyin.encode('ascii')
 
 def lpad14(c):
-    return "{0:x}".format(ord(c)).zfill(14)
+    return "{0:x}".format(ord(c)).zfill(14).encode('ascii')
             
 def pinyin_order(s):
-    return ''.join([pinyin_index.get(x, lpad14(x)) for x in s])        
+    return b''.join([pinyin_index.get(x, lpad14(x)) for x in s])        
     
 def bihua_order(s):
-    return ''.join([bihua_index.get(x, lpad14(x)) for x in s])
+    return b''.join([bihua_index.get(x, lpad14(x)) for x in s])
 
