@@ -1,2 +1,17 @@
 # hanzi_sort
-Python sort key methods for UTF-8 encoded Chinese character strings based on either Pinyin (pronunciation) or Bihua (strikes).
+Python sort key methods for UTF-8 encoded Chinese character strings based on either Pinyin (pronunciation) or Bihua (strokes).
+
+为UTF-8编码下的中文文字串提供类似英文字符串的排序功能：可分为以拼音排序和笔画数排序。
+
+## 背景
+Unicode下的中文字符的分布并没有太多规律，大致上是按照部首排下来，繁体和简体穿插而行。当需要排序的时候，比如人名排序，关键词排序等，
+如果简单的按照Unicode的顺序排序得到的结果并不是以中文使用者习惯的排序。
+
+## 实现
+我们希望最后的使用非常简洁，可以如同排列英文字符串一样，只是告诉排序程序使用引进的key函数，为每一个中文文字串提供一个变体字符串，
+而这个字符串是按照拼音或者笔画数排列的。
+
+为此，我们为每一个中文字编码，或者说提供一个index值，比如说按拼音排序，如果字`a`的拼音比`b`靠前，那么`index(a) < index(b)`，如果
+`a`和`b`的拼音相同，音调也相同，但是`a`的笔画数比`b`少，那么依然`index(a) < index(b)`。如果拼音完全相同，笔画数也完全相同，那么我们
+就比拼它们的Unicode代码，一般来说部首笔画少的会更靠前。总之，不会有两个汉字拥有完全一样的index。按照笔画数排序也类似，我们
+优先考虑笔画，然后考虑拼音，最后考虑Unicode。
